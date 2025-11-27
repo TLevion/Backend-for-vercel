@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 mongoose
   .connect(
-    "mongodb+srv://levion96_db_user:12345@coffeeshopcluster.bxgwpwh.mongodb.net/coffee_shop_db?retryWrites=true&w=majority"
+    "mongodb+srv://levion96_db_user:<password>@coffeeshopcluster.bxgwpwh.mongodb.net/coffee_shop_db?retryWrites=true&w=majority"
   )
   .then(() => console.log("✅ MongoDB connected"))
   .catch((err) => console.log("❌ Connection failed:", err.message));

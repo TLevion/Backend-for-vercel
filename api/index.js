@@ -6,12 +6,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect Mongo ONLY once
+// MongoDB connection using Env Variable
+const MONGO_URI = process.env.MONGO_URI;
+
 if (!global.mongooseConnected) {
   mongoose
-    .connect(
-      "mongodb+srv://levion96_db_user:12345@coffeeshopcluster.bxgwpwh.mongodb.net/coffee_shop_db"
-    )
+    .connect(MONGO_URI)
     .then(() => {
       console.log("MongoDB connected");
       global.mongooseConnected = true;
@@ -29,10 +29,11 @@ const menuSchema = new mongoose.Schema({
 });
 
 // Model
-const MenuItem = mongoose.models.MenuItem || mongoose.model("MenuItem", menuSchema);
+const MenuItem =
+  mongoose.models.MenuItem || mongoose.model("MenuItem", menuSchema);
 
 // Routes
-app.get("/api/menu", async (req, res) => {
+app.get("/menu", async (req, res) => {
   try {
     const items = await MenuItem.find();
     res.json(items);
@@ -41,7 +42,7 @@ app.get("/api/menu", async (req, res) => {
   }
 });
 
-app.get("/api/menu/random", async (req, res) => {
+app.get("/menu/random", async (req, res) => {
   try {
     const items = await MenuItem.find({ inStock: true });
     const random = items[Math.floor(Math.random() * items.length)];
@@ -51,5 +52,5 @@ app.get("/api/menu/random", async (req, res) => {
   }
 });
 
-// Vercel export
+// Export for Vercel
 export default app;
