@@ -33,6 +33,19 @@ const MenuItem =
   mongoose.models.MenuItem || mongoose.model("MenuItem", menuSchema);
 
 // Routes
+
+// ADD THIS ROOT ROUTE HANDLER
+app.get("/", async (req, res) => {
+  res.json({ 
+    message: "Backend API is running!",
+    endpoints: [
+      "GET /menu - Get all menu items",
+      "GET /menu/random - Get random menu item"
+    ],
+    timestamp: new Date().toISOString()
+  });
+});
+
 app.get("/menu", async (req, res) => {
   try {
     const items = await MenuItem.find();
